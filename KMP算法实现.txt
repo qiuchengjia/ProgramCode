@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstring>
+#include<stdio.h>
+#include<vector>
+#include<stack>
+#include<algorithm>
+using namespace std;
+int *  nextArray(char * str){
+   int len = strlen(str);
+   int q,k;
+   int * next = new int[len];
+   next[0] = 0;
+   for(q = 1 , k = 0; q < len ;q++){
+        while(k > 0 && str[q] != str[k])
+            k = next[k - 1];
+        if(str[q] == str[k])
+            k++;
+        next[q] = k;
+   }
+   return next;
+}
+int KMP(char * strMain , char * strP){
+    if(strMain == NULL || strP == NULL || *strMain == '\0' || *strP == '\0')
+        return -1;
+    int n,m;
+    int i,q;
+    n = strlen(strMain);
+    m = strlen(strP);
+    int * next = nextArray(strP);
+    for(i = 0 , q = 0 ; i < n ; ++i){
+        while(q > 0 && strMain[i] != strP[q])
+            q = next[q - 1];
+        if(strMain[i] == strP[q])
+            q++;
+        if(q == m)
+            return i - m + 1;
+    }
+    return -1;
+}
+int main(){
+    char  main[] = "ABCDA";
+    char a[] = "C";
+    int result = KMP(main , a);
+    cout<<result<<endl;
+	return 0;
+}
+
+
+
