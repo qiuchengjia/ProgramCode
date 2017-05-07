@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cstring>
+#include<stdio.h>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<string>
+#include<string.h>
+using namespace std;
+/** 寻找最小的K个数
+此算法为线性选择算法，时间复杂度为O(n)
+还有三种算法求解，
+一：快速排序，时间复杂度为O(nlogn)
+二：维护一个k大小的数组，每次对数组进行排序，确保一个最大值，
+时间复杂度为O(nk)
+三：还是方法二，不过用最大堆来代替数组，建立堆为O(k),更新堆为O(logk),
+所以总的复杂度为O(k)
+*/
+//选择前k小的数
+void QuickSelect(int s[],int k,int left,int right){
+    int i,j,pro;
+    if(left <= right){
+        i = left;
+        j = right - 1;
+        pro = s[left];
+        while(i < j){
+            while(i < j && pro < s[j])
+                j--;
+            while(i < j && pro > s[i])
+                i++;
+            if(i < j)
+                swap(s[i] , s[j]);
+            else
+                break;
+        }
+    }
+    if(k < i){
+       QuickSelect(s , k ,left , i);
+    }else if(k == i){
+        return;
+    }else{
+        QuickSelect(s , k ,i + 1 , right);
+    }
+
+
+}
+
+int main(){
+
+    int s[]={99,22,6,7,88,34,2,12,435,9,34,23,1,97};//14个元素，取最小的k个数
+    for (int i=0;i<sizeof(s)/sizeof(int);i++){
+        cout<<s[i]<<" ";
+    }
+    cout<<endl;
+    int k=5;
+    QuickSelect(s,k,0,sizeof(s)/sizeof(int)-1);
+    cout<<"----result:----"<<endl;
+    for (int m=0;m<k;m++){
+        cout<<s[m]<<" ";
+    }
+    cout<<endl;
+    for (int i=0;i<sizeof(s)/sizeof(int);i++){
+        cout<<s[i]<<" ";
+    }
+    return 0;
+}
+
+
