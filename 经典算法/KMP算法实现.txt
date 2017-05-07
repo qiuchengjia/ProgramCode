@@ -5,6 +5,7 @@
 #include<stack>
 #include<algorithm>
 using namespace std;
+//http://www.cnblogs.com/c-cloud/p/3224788.html
 int *  nextArray(char * str){
    int len = strlen(str);
    int q,k;
