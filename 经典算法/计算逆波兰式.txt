@@ -1,0 +1,65 @@
+#include <iostream>
+#include <cstring>
+#include<stdio.h>
+#include<vector>
+#include<stack>
+#include<algorithm>
+using namespace std;
+/**
+ * Description:计算逆波兰式
+ * Blog: www.qiuchengjia.cn
+ * Data: 2017-5-16
+ * Author: colin
+ */
+bool result_invaled = true;
+int statckResult(char * str , int len){
+    if(str == NULL || len < 1){
+        result_invaled = false;
+        return NULL;
+    }
+    stack<int> sta;
+    char * index = str;
+    while(*index != '\0'){
+        if(*index <= '9' && *index >= '0'){
+            sta.push(*index - '0');
+            index++;
+        }else if((*index == '+' || *index == '-'||
+                 *index == '/' || *index == '*') && sta.size() >= 2){
+            int num1 = sta.top();
+            sta.pop();
+            int num2 = sta.top();
+            sta.pop();
+            if(*index == '+'){
+                sta.push(num1 + num2);
+            }else if(*index == '-'){
+                sta.push(num1 - num2);
+            }else if(*index == '/'){
+                sta.push(num1 / num2);
+            }else{
+                sta.push(num1 * num2);
+            }
+            index++;
+        }else{
+            result_invaled = false;
+            return NULL;
+        }
+    }
+    if(sta.size() == 1){
+        result_invaled = true;
+        return sta.top();
+    }else{
+        result_invaled = false;
+        return NULL;
+    }
+}
+
+int main(){
+    char * str = "21+3*";
+    int result = statckResult(str , sizeof(str)/sizeof(str[0]));
+    if(result_invaled){
+        cout<<result<<endl;
+    }else{
+        cout<<"gg"<<endl;
+    }
+    return 0;
+}

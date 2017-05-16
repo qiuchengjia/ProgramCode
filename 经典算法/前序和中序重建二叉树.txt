@@ -12,6 +12,12 @@
 #include<deque>
 #include<ostream>
 using namespace std;
+/**
+ * Description:前序和中序重建二叉树
+ * Blog: www.qiuchengjia.cn
+ * Data: 2017-5-16
+ * Author: colin
+ */
 struct TreeNode{
     TreeNode * left = NULL;
     TreeNode * right = NULL;
