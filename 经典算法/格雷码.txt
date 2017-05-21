@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cstring>
+#include<stdio.h>
+#include<vector>
+#include<stack>
+#include<algorithm>
+#include<string>
+#include<string.h>
+#include<math.h>
+using namespace std;
+vector<int> grayCode(int n){
+    vector<int> result;
+    int size = 1 << n;
+    for(int i = 0 ;i < size ; ++i){
+        result.push_back((i >> 1) ^ i);
+    }
+    return result;
+}
+int main(){
+    vector<int> result = grayCode(3);
+    for(int i = 0 ;i < result.size() ; i++){
+        cout<<result[i] << endl;
+    }
+    return 0;
+}
