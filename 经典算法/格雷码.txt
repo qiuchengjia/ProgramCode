@@ -8,6 +8,12 @@
 #include<string.h>
 #include<math.h>
 using namespace std;
+/**
+ * Description:格雷码
+ * Blog: www.qiuchengjia.cn
+ * Data: 2017-5-16
+ * Author: colin
+ */
 vector<int> grayCode(int n){
     vector<int> result;
     int size = 1 << n;
