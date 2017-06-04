@@ -10,32 +10,52 @@ using namespace std;
  * Author: colin
  */
 void mergearray(int a[], int first, int mid, int last, int temp[]){
-    int i = first, j = mid + 1;
-    int m = mid,   n = last;
-    int k = 0;
-
-    while (i <= m && j <= n){
-        if (a[i] <= a[j])
-            temp[k++] = a[i++];
-        else
+     int i = first;
+     int j = mid + 1;
+     int k = first;
+     while(i <= mid && j <= last){
+         if(a[i] >= a[j])
             temp[k++] = a[j++];
-    }
-
-    while (i <= m)
+         else
+            temp[k++] = a[i++];
+     }
+     while(i <= mid)
         temp[k++] = a[i++];
-
-    while (j <= n)
+     while(j <= last)
         temp[k++] = a[j++];
+     while(first < last){
+        a[first] = temp[first];
+        first++;
+     }
+}
+void Merge2 (int data[], int start, int mid, int end , int temp[]){
+    int i = start;
+    int j = mid + 1;
+    int k = start;
+    while (i <= mid && j <= end){
+        if (data[i] <= data[j])
+            temp[k++] = data[i++];
+        else
+            temp[k++] = data[j++];
+    }
+    while (i <= mid)
+        temp[k++] = data[i++];
 
-    for (i = 0; i < k; i++)
-        a[first + i] = temp[i];
+    while (j <= end)
+        temp[k++] = data[j++];
+
+    while (start <= end){
+        data[start] = temp[start];
+        ++start;
+    }
 }
 void mergesort(int a[], int first, int last, int temp[]){
     if (first < last){
         int mid = (first + last) / 2;
         mergesort(a, first, mid, temp);
         mergesort(a, mid + 1, last, temp);
-        mergearray(a, first, mid, last, temp);
+       // mergearray(a, first, mid, last, temp);
+       Merge2(a,first, mid, last, temp);
     }
 }
 bool MergeSort(int a[], int n){
