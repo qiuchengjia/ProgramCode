@@ -1,0 +1,58 @@
+#include<iostream>
+#include<stdio.h>
+#include<algorithm>
+#include<memory.h>
+using namespace std;
+/**
+ * Description:归并排序
+ * Blog: www.qiuchengjia.cn
+ * Data: 2017-6-4
+ * Author: colin
+ */
+void mergearray(int a[], int first, int mid, int last, int temp[]){
+    int i = first, j = mid + 1;
+    int m = mid,   n = last;
+    int k = 0;
+
+    while (i <= m && j <= n){
+        if (a[i] <= a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
+    }
+
+    while (i <= m)
+        temp[k++] = a[i++];
+
+    while (j <= n)
+        temp[k++] = a[j++];
+
+    for (i = 0; i < k; i++)
+        a[first + i] = temp[i];
+}
+void mergesort(int a[], int first, int last, int temp[]){
+    if (first < last){
+        int mid = (first + last) / 2;
+        mergesort(a, first, mid, temp);
+        mergesort(a, mid + 1, last, temp);
+        mergearray(a, first, mid, last, temp);
+    }
+}
+bool MergeSort(int a[], int n){
+    int *p = new int[n];
+    if (p == NULL)
+        return false;
+    mergesort(a, 0, n - 1, p);
+    delete[] p;
+    return true;
+}
+int main(){
+    int a[10] = {1,5,3,8,3,5,3,12,0,2};
+    int len = sizeof(a)/sizeof(a[0]);
+    bool result = MergeSort(a , len);
+    if(result){
+        for(int i = 0 ;i < len ;i++)
+            printf("%d ", a[i]);
+    }
+    return 0;
+}
