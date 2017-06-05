@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<algorithm>
 #include<memory.h>
+int resultSum = 0 ;
 using namespace std;
 /**
  * Description:归并排序
@@ -9,7 +10,10 @@ using namespace std;
  * Data: 2017-6-4
  * Author: colin
  */
-void mergearray(int a[], int first, int mid, int last, int temp[]){
+ /**
+ * 从小到大排序实现二
+*/
+ void mergearray(int a[], int first, int mid, int last, int temp[]){
      int i = first;
      int j = mid + 1;
      int k = first;
@@ -28,6 +32,9 @@ void mergearray(int a[], int first, int mid, int last, int temp[]){
         first++;
      }
 }
+/**
+ * 从小到大排序实现一
+*/
 void Merge2 (int data[], int start, int mid, int end , int temp[]){
     int i = start;
     int j = mid + 1;
@@ -49,30 +56,54 @@ void Merge2 (int data[], int start, int mid, int end , int temp[]){
         ++start;
     }
 }
-void mergesort(int a[], int first, int last, int temp[]){
-    if (first < last){
-        int mid = (first + last) / 2;
-        mergesort(a, first, mid, temp);
-        mergesort(a, mid + 1, last, temp);
-       // mergearray(a, first, mid, last, temp);
-       Merge2(a,first, mid, last, temp);
-    }
-}
-bool MergeSort(int a[], int n){
-    int *p = new int[n];
-    if (p == NULL)
+/**
+ * 从大到小排序，并计算数组的逆序数对
+*/
+ void merge(int *data , int start , int mid , int end , int * temp){
+        int i = start , j = mid + 1;
+        int index = start;
+        while(i <= mid && j <= end){
+            if(data[i] > data[j]){
+                temp[index++] = data[i++];
+                resultSum += (end - j + 1);
+            }else{
+                temp[index++] = data[j++];
+            }
+        }
+        while(i <= mid)
+            temp[index++] = data[i++];
+        while(j <= end)
+            temp[index++] = data[j++];
+        while(start <= end){
+            data[start] = temp[start];
+            start++;
+        }
+ }
+ void sort(int * data , int start , int end , int * temp){
+     if(start < end){
+        int mid = (start + end) / 2;
+        sort(data , start , mid , temp);
+        sort(data , mid + 1 , end , temp);
+        merge(data , start , mid , end, temp);
+     }
+ }
+ bool mergeSort(int * data , int len){
+    int * temp = new int [len];
+    if(data == NULL || temp == NULL || len <= 0)
         return false;
-    mergesort(a, 0, n - 1, p);
-    delete[] p;
+    sort(data , 0 , len - 1 , temp);
     return true;
-}
+ }
 int main(){
-    int a[10] = {1,5,3,8,3,5,3,12,0,2};
-    int len = sizeof(a)/sizeof(a[0]);
-    bool result = MergeSort(a , len);
+    int arr[4]={7,5,6,4};
+    int len = sizeof(arr)/sizeof(arr[0]);
+    resultSum = 0 ;
+    bool result =mergeSort(arr , len);
     if(result){
-        for(int i = 0 ;i < len ;i++)
-            printf("%d ", a[i]);
+        for(int i = 0 ;i < len ;i++){
+            printf(" %d " , arr[i]);
+        }
     }
+    printf("\nInverse number pair= %d\n" , resultSum);
     return 0;
 }
