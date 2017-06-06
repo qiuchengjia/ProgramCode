@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <malloc.h>
+#include<algorithm>
+#include <string.h>
+/**
+ * Description:翻转单词序列
+ * Blog: www.qiuchengjia.cn
+ * Data: 2017-6-4
+ * Author: colin
+ */
+void reverseSingleWord(char * data , int len){
+   if(data == NULL)
+        return;
+   int i = 0 ;
+   int j = len -1;
+   while(i < j){
+        char temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+        i++;
+        j--;
+   }
+}
+void reverseWord(char * data , int len){
+    if(data == NULL)
+        return ;
+    reverseSingleWord(data , len);
+    int start = 0 ,end = 0 ;
+    while(data[start] != '\0'){
+        start = end;
+        while(data[start] ==' ' && data[start] != '\0')
+            start++;
+        end = start;
+        while(data[end] != ' ' && data[end] != '\0')
+            end++;
+        reverseSingleWord(data + start , end - start);
+    }
+}
+int main(){
+    char str[50001];
+    while(gets(str)){
+        reverseWord(str , strlen(str));
+        printf("%s\n",str);
+    }
+    return 0;
+}
