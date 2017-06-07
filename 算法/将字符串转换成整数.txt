@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <malloc.h>
+#include<algorithm>
+#include <string.h>
+#include <list>
+int isInvalid = 0;
+using namespace std;
+long long isLegal(const char * start , bool isFu){
+   long long result = 0;
+   while(*start != '\0'){
+        if(*start >= '0' && *start <= '9'){
+            int flag = isFu ? -1 : 1;
+            result = result * 10 + flag * (*start - '0');
+            if((!isFu && result > 0x7FFFFFFF) ||
+               (isFu && result < (signed int)0x80000000)){
+                    result= 0;
+                    break;
+               }
+            start++;
+        }else{
+            result = 0;
+            break;
+        }
+   }
+   if(*start == '\0'){
+        isInvalid = 1;
+   }
+   return result;
+}
+int strToInt(const char * data ){
+    isInvalid = 0 ;
+    long long result  = 0 ;
+    if(data != NULL && *data != '\0'){
+        bool isFu = false;
+        if(*data == '+')
+            data++;
+        else if(*data == '-'){
+            isFu = true;
+            data++;
+        }
+        if(*data != '\0')
+            result = isLegal(data , isFu);
+    }
+    return (int)result;
+}
+int main(){
+    char str[1000010];
+    while(scanf("%s" , &str) != EOF){
+        int result = strToInt(str);
+        if(isInvalid == 1){
+                printf("%d\n", result);
+        }else{
+            printf("My God\n");
+        }
+    }
+    return 0;
+}
