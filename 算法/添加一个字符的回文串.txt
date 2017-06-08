@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+/**
+给定一个字符串，问是否能通过添加一个字母将其变为回文串。    
+*/
+bool IsHuiWen(string str){
+    for(int i = 0 ; i < str.size()/2 ;i++){
+        if(str[i] != str[str.size() - i - 1])
+            return false;
+    }
+    return true;
+}
+int main(){
+    string str;
+    while(cin>>str){
+        int flag = false;
+        int i = 0;
+        for(i = 0 ;i < str.size() /2 ; i++){
+            if(str[i] != str[str.size() - 1-i])
+                break;
+        }
+        if(i == str.size()/2)
+            flag = true;
+        else{
+            string temp = str.substr(i + 1 , str.size() - 1 - i);
+            string temp1 = str.substr(i , str.size() - 1 - i);
+            flag = (IsHuiWen(temp1) || IsHuiWen(temp));
+            if(flag)
+                printf("YES\n");
+            else
+                printf("NO\n");
+        }
+
+    }
+    return 0;
+}
