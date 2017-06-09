@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+/**
+    标准的二分写法
+    找出一个匹配的最大的元素，如果有多个，返回最大的那个
+*/
+int BinarySeach(int * data , int start , int end , int value){
+    int minIndex = start , maxIndex = end , midIndex;
+    /**循环节数有两种情况
+       若minIndex为偶数则 minIndex == maxIndex;
+       否则就是 minIndex == maxIndex -1;
+    */
+    while(minIndex < maxIndex - 1){
+        midIndex = minIndex + (maxIndex - minIndex)/2;
+        if(data[midIndex] <= value){
+            minIndex = midIndex;
+        }else{
+            //不需要 midIndex - 1,防止 minIndex == maxIndex
+            maxIndex = midIndex;
+        }
+    }
+    if(data[maxIndex] == value)
+        return maxIndex;
+    else if(data[minIndex] == value)
+        return minIndex;
+    else
+        return -1;
+}
+int main(){
+    int data[5] = {1,2,2,3,6};
+    cout<<BinarySeach(data , 0 , 5 , 4)<<endl;
+    cout<<BinarySeach(data , 0 , 5 , 1)<<endl;
+    cout<<BinarySeach(data , 0 , 5 , 2)<<endl;
+    cout<<BinarySeach(data , 0 , 5 , 3)<<endl;
+    cout<<BinarySeach(data , 0 , 5 , 6)<<endl;
+
+    return 0;
+}
