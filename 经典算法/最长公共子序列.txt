@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+using namespace std;
+set<string> setOfLCS;
+string X = "ABCBDAB";
+string Y = "BDCABA";
+int ** table;
+/**
+ 动态规划解最长公共子序列问题，
+ 时间复杂度O(n*m) 空间复杂度O(n*m)
+*/
+int LCS(int m, int n){
+    table = new int *[m + 1];
+    for(int i = 0 ;i < m + 1;i++){
+        table[i] = new int[n + 1];
+    }
+   // table[0][0] = 0;
+    for(int i=0; i<m+1; ++i){
+        for(int j=0; j<n+1; ++j){
+            // 第一行和第一列置0
+            if (i == 0 || j == 0)
+                table[i][j] = 0;
+            else if(X[i - 1] == Y[j - 1])
+                table[i][j] = table[i-1][j-1] + 1;
+            else
+                table[i][j] = max(table[i-1][j], table[i][j-1]);
+        }
+    }
+    return table[m][n];
+}
+/**
+ * 字符串逆序
+ */
+string Reverse(string str){
+    int low = 0;
+    int high = str.length() - 1;
+    while (low < high){
+        char temp = str[low];
+        str[low] = str[high];
+        str[high] = temp;
+        ++low;
+        --high;
+    }
+    return str;
+}
+/**
+ * 求出所有的最长公共子序列，并放入set中
+ */
+void traceBack(int i , int j , string lcs_str){
+    while (i>0 && j>0){
+        if (X[i-1] == Y[j-1]){
+            lcs_str.push_back(X[i-1]);
+            --i;
+            --j;
+        }else{
+            if (table[i-1][j] > table[i][j-1])
+                --i;
+            else if (table[i-1][j] < table[i][j-1])
+                --j;
+            // 相等的情况
+            else{
+                traceBack(i-1, j, lcs_str);
+                traceBack(i, j-1, lcs_str);
+                return;
+            }
+        }
+    }
+    setOfLCS.insert(Reverse(lcs_str));
+}
+int main(){
+     int m = X.length();
+    int n = Y.length();
+    int length = LCS(m, n);
+    cout << "The length of LCS is " << length << endl;
+    string str;
+    traceBack(m, n, str);
+
+    set<string>::iterator beg = setOfLCS.begin();
+    for( ; beg!=setOfLCS.end(); ++beg)
+        cout << *beg << endl;
+    return 0;
+}
