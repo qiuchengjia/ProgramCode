@@ -3,29 +3,23 @@
 也就是个位排在链表的首部。编写函数对这两个整数求和，并用链表形式返回结果。
 给定两个链表ListNode* A，ListNode* B，请返回A+B的结果(ListNode*)。
 */
-class Plus{
+class Plus {
 public:
-    ListNode* plusAB(ListNode* a, ListNode* b)
-    {
-        // write code here
-        ListNode *head = new ListNode(-1);
-        ListNode *sum = head;
-        ListNode *node = NULL;
-        int value = 0;
-        int valA;
-        int valB;
-        while(a!=NULL||b!=NULL||value!=0){
-            valA = (a != NULL ? a->val : 0);
-            valB = (b != NULL ? b->val : 0);
-            value += valA+valB;
- 
-            node = new ListNode(value % 10);
-            value /= 10;
-            sum->next = node;
-            sum = node;
-            a = a != NULL ? a->next : NULL;
-            b = b != NULL ? b->next : NULL;
-        }
-        return head->next;
-    }
+    ListNode* plusAB(ListNode* a, ListNode* b) {
+        ListNode * head = new ListNode(-1);
+        ListNode * sum = head;
+        ListNode * node = NULL;
+        int value = 0;
+        while(a != NULL || b != NULL || value != 0){
+            value += (a != NULL ? a->val : 0);
+            value += (b != NULL ? b->val : 0);
+            node = new ListNode(value % 10);
+            value /= 10;
+            sum->next = node;
+            sum = node;
+            a = a != NULL ? a->next : NULL;
+            b = b != NULL ? b->next : NULL;
+        }
+        return head->next;
+    }
 };
