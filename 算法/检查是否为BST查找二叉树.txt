@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+/**
+http://www.cnblogs.com/ranjiewen/p/5575967.html
+*/
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+
+class Checker {
+public:
+    bool isBST(TreeNode * root , int & value){
+        if(root == NULL)
+            return true;
+        if(!isBST(root->left , value))
+            return false;
+        if(root->val < value)
+            return false;
+        value = root->val;
+        if(!isBST(root->right , value))
+            return false;
+        return true;
+    }
+    bool checkBST(TreeNode* root) {
+        int min = INT_MIN;
+        return isBST(root , min);
+    }
+};
+int main(){
+    return 0;
+}
