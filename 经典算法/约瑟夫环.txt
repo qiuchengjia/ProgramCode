@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+/**
+约瑟夫问题是一个非常著名的趣题，即由n个人坐成一圈，按顺时针由1开始给他们编号。
+然后由第一个人开始报数，数到m的人出局。现在需要求的是最后一个出局的人的编号。
+给定两个int n和m，代表游戏的人数。请返回最后一个出局的人的编号。保证n和m小于等于1000。
+测试样例：
+5 3
+返回：4
+*/
+class Joseph {
+public:
+    int getResult2(int n , int m){
+        if(n < 1 || m < 1)
+            return -1;
+        int last = 0 ;
+        for(int i = 1;i <= n ;i++){
+            last = (last + m) % i;
+        }
+        return last + 1;
+    }
+    int getResult(int n, int m) {
+        if(n < 1 || m < 1)
+            return -1;
+        list<int> numbers;
+        for(int i = 0 ;i < n ;i++)
+            numbers.push_back(i);
+        list<int>::iterator curIndex = numbers.begin();
+        while(numbers.size() > 1){
+            for(int i = 1 ;i < m ;i++){
+                ++curIndex;
+                if(curIndex == numbers.end())
+                    curIndex = numbers.begin();
+            }
+            list<int>::iterator next = ++curIndex;
+            if(next == numbers.end())
+                next = numbers.begin();
+            --curIndex;
+            numbers.erase(curIndex);
+            curIndex = next;
+        }
+        return *curIndex + 1;
+    }
+};
+int main(){
+    cout<<Joseph().getResult(5,3)<<endl;
+    cout<<Joseph().getResult2(5,3)<<endl;
+    return 0;
+}
