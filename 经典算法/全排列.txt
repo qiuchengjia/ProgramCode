@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+//在 str 数组中，[start,end) 中是否有与 str[end] 元素相同的
+bool IsSwap(char* str,int start,int end){
+	for(;start<end;start++){
+		if(str[start] == str[end])
+			return false;
+	}
+	return true;
+}
+//递归全排列，start 为全排列开始的下标， length 为str数组的长度
+void AllRange(char* str,int start,int length){
+	if(start == length-1){
+		printf("%s\n",str);
+	}else{
+		for(int i=start;i<=length-1;i++){
+		    //从下标为start的数开始，分别与它后面的数字交换
+		    if(IsSwap(str , start , i)){//用来去重，去掉的话就是一个正常的全排列
+                swap(*(str + start) , *(str + i));
+                AllRange(str,start+1,length);
+                swap(*(str + start) , *(str + i));
+		    }
+		}
+	}
+}
+void Permutation(char* str){
+	if(str == NULL)
+		return;
+	AllRange(str,0,strlen(str));
+}
+int  main(){
+	char str[] = "abcc";
+	Permutation(str);
+}
+
