@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+/**
+请编写一个方法，对一个字符串数组进行排序，将所有变位词合并，
+保留其字典序最小的一个串。这里的变位词指变换其字母顺序所构成的新的词或短语。例如"triangle"和"integral"就是变位词。
+给定一个string的数组str和数组大小int n，请返回排序合并后的数组。
+保证字符串串长小于等于20，数组大小小于等于300。
+测试样例：
+["ab","ba","abc","cba"]
+返回：["ab","abc"]
+
+
+//1.对原数组排序
+//2.遍历排序后的序列，若变位词没出现过，则将其添加到加入set和res
+//3.返回res
+*/
+class SortString {
+public:
+    vector<string> sortStrings(vector<string> str, int n) {
+        vector<string> res;
+        sort(str.begin(), str.end());
+        set<string> set;
+        for(int i = 0 ;i < str.size() ;i++){
+            string temp(str[i]);
+            sort(temp.begin(), temp.end());
+            if(set.count(temp) == 0) {
+                set.insert(temp);
+                res.push_back(str[i]);
+            }
+        }
+        return res;
+    }
+
+};
+int main(){
+    vector<string> vec;
+    vec.push_back("ab");
+    vec.push_back("ba");
+    vec.push_back("abc");
+    vec.push_back("cba");
+    vector<string> result = SortString().sortStrings(vec , 4);
+    for(int i = 0 ;i < result.size() ;i++)
+        cout<<result[i]<<endl;
+    return 0;
+}
