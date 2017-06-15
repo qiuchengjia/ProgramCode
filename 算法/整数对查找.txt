@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+/**
+题目描述
+请设计一个高效算法，找出数组中两数之和为指定值的所有整数对。
+给定一个int数组A和数组大小n以及需查找的和sum，请返回和为sum的整数对的个数。保证数组大小小于等于3000。
+测试样例：
+[1,2,3,4,5],5,6
+返回：2
+
+思路：使用HashMap，key为数组中的数字，value为数组中每个数字出现的频次。
+遍历一次，使用一个变量count 统计两个整数之和等于给定值的对数。对于A[i]，
+先判断map中是否有key为（sum-A[i]），若存在count加上档案 key为（sum-A[i]）
+对应的value值，然后把A[i]存储到map中。
+*/
+class FindPair {
+public:
+    int countPairs(vector<int> A, int n, int sum) {
+        if(A.empty() || n < 1)
+            return 0;
+        map<int ,int> m;
+        int count = 0;
+        for(int i = 0;i < n;i++){
+            int temp = sum - A[i];
+            if(m.find(temp) != m.end()){
+                count += m[temp];
+            }
+            if(m.find(A[i]) != m.end()){
+                m[A[i]]++;
+            }else{
+                m[A[i]] = 1;
+            }
+        }
+        return count;
+    }
+};
+int main(){
+    vector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+    vec.push_back(4);
+    vec.push_back(5);
+    cout<<FindPair().countPairs(vec , 5 ,6);
+    return 0;
+}
