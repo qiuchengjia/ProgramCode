@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+/*
+题目描述
+现有一些随机生成的数字要将其依次传入，请设计一个高效算法，对于每次传入一个数字后，算出当前所有传入数字的中位数。(若传入了偶数个数字则令中位数为第n/2小的数字，n为已传入数字个数)。
+给定一个int数组A，为传入的数字序列，同时给定序列大小n，请返回一个int数组，代表每次传入后的中位数。保证n小于等于1000。
+测试样例：
+[1,2,3,4,5,6],6
+返回：[1,1,2,2,3,3]
+
+建立最大最小堆，具体步骤如下：
+1、最大堆中存放比最小堆中小的元素
+2、如果最大堆中队头的元素大于最小堆的元素，则交换
+3、i为奇数时存入最小堆，否则在最大堆中
+*/
+class Middle {
+public:
+    vector<int> getMiddle(vector<int> A, int n) {
+        vector<int> result;
+        if(A.empty() || n < 1)
+            return result;
+        priority_queue<int> max;
+        priority_queue<int ,vector<int> , greater<int> > min;
+        for(int i = 0 ;i < n ; i++){
+            max.push(A[i]);
+            if(i % 2 == 1){//放入最小堆
+                min.push(max.top());
+                max.pop();
+            }else{//放入最大堆  最大堆中存放比最小堆中小的元素
+                if(!min.empty()){
+                    if(max.top() > min.top()){//如果最大堆中队头的元素大于最小堆的元素，则交换
+                        int max_num = max.top();
+                        max.pop();
+                        int min_num = min.top();
+                        min.pop();
+                        max.push(min_num);
+                        min.push(max_num);
+                    }
+                }
+            }
+            result.push_back(max.top());
+        }
+        return result;
+    }
+};
+int main(){
+    return 0;
+}
