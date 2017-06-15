@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+/**
+题目描述
+有一组单词，请编写一个程序，在数组中找出由数组中字符串组成的最长的串A，
+即A是由其它单词组成的(可重复)最长的单词。
+给定一个string数组str，同时给定数组的大小n。请返回最长单词的长度，
+保证题意所述的最长单词存在。
+测试样例：
+["a","b","c","ab","bc","abc"],6
+返回：3
+
+先按字符串长度排个序哦，然后从长度最长的开始判断是否是由其他的合成的。
+每次都从字符串的前端开始切，递归地判断~
+*/
+class LongestString {
+public:
+    static bool cmp(const string s1 , const string s2){
+        return s1.length() > s2.length();
+    }
+    bool isOk(vector<string> str , int index , string s , int n){
+        if(s.length() == 0)
+            return true;
+        for(int i = 0 ;i < n ;i++){
+            if(i != index){
+                if(s.find(str[i]) == 0){
+                    if(isOk(str , index , s.substr(str[i].length()) , n))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    int getLongest(vector<string> str, int n) {
+        if(str.empty() || n < 1)
+            return -1;
+        sort(str.begin() , str.end(), cmp);
+        for(int i = 0 ;i < n;i++){
+             if(isOk(str , i , str[i] , n))
+                return str[i].length();
+        }
+        return -1;
+    }
+};
+int main(){
+    return 0;
+}
