@@ -50,29 +50,31 @@ int main(){
 //KMP简单实现二
 #include<bits/stdc++.h>
 using namespace std;
-string s,str;
 int next[1000006];
-
-int get(int x,char ch){
+string s,str;
+int get(int x , char ch){
     while(1){
-        if(str[x] == ch) return x+1;
-        if(!x) return 0;
+        if(str[x] == ch)
+            return x + 1;
+        if(!x)
+            return 0;
         x = next[x];
     }
 }
-
 int main(){
-    std::ios::sync_with_stdio(false);
-    cin>>s>>str;
-    int n = s.length();
-    int m = str.length();
-    next[1] = 0;
-    for(int i = 2; i <= m; ++i)
-        next[i] = get(next[i-1],str[i-1]);
-    int ans = 0,t = 0;
-    for(int i = 0; i < n; ++i){
-        t = get(t,s[i]);
-        if(t == m) ++ans;
+    while(cin>>s>>str){
+        int n = s.length();
+        int m = str.length();
+        next[1] = 0 ;
+        for(int i = 2 ;i <= m ; i++)
+            next[i] = get(next[i - 1] , str[i - 1]);
+        int t = 0 , ans = 0 ;
+        for(int i = 0 ;i < n ;i ++){
+            t = get(t , s[i]);
+            if(t == m)
+                ans++;
+        }
+        cout<<ans<<endl;//打印有多少个匹配
     }
-    cout<<ans<<endl;
+    return 0;
 }
