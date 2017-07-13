@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#define N 9 //数组元素个数
+using namespace std;
+/**
+打印出所有的和为s的连续正数序列(至少含有两个数)
+例如 15 ， 由于1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 = 15
+所以打印的结果为 1~5 ， 4~6 ， 7~8
+*/
+void printContinuousSequence(int small , int big){
+    if(small < big){
+        for(int i = small ;i <= big ;i++){
+            printf("%d " , i);
+        }
+        printf("\n");
+    }
+}
+void FindContinuousSequence(int num){
+    if(num < 3)
+        return;
+    int small = 1 ;
+    int big = 2;
+    int middle = (1 + num)/2;
+    int curSum = small + big;
+    while(small < middle){
+        if(curSum == num){
+            printContinuousSequence(small , big);
+        }
+        while(curSum > num && small < middle){
+            curSum -= small;
+            small++;
+            if(curSum == num)
+                printContinuousSequence(small , big);
+        }
+        big++;
+        curSum += big;
+    }
+
+}
+int main(){
+    FindContinuousSequence(15);
+    return 0;
+}
