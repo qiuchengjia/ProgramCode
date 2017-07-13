@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+#define N 9 //数组元素个数
+using namespace std;
+/**
+采用后序遍历遍历二叉树的每一个节点，
+在遍历到一个节点之前我们就已经遍历了他的
+左右子树，只要在遍历的时候记录他的深度，
+我们就可以一边遍历一边判断每个节点是不是
+平衡的。
+*/
+struct Node{
+    int value;
+    Node * left;
+    Node * right;
+    Node(){
+        value = -1;
+        left = NULL;
+        right = NULL;
+    }
+};
+bool IsBalanced(Node * node , int * deep){
+    if(node == NULL){
+        *deep = 0 ;
+        return true;
+    }
+    int left = 0, right = 0;
+    if(IsBalanced(node->left , &left)
+       && IsBalanced(node->right , &right)){
+        int dif = left - right;
+        if(dif <= 1 || dif >= -1){
+            *deep = 1 + (left > right ? left :right);
+            return true;
+        }
+    }
+    return false;
+}
+bool balance(Node * node){
+    if(node == NULL)
+        return true;
+    int deep = 0;
+    return IsBalanced(node , &deep);
+}
+int main(){
+    return 0;
+}
