@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 1000001;
+short result[N]; //全局变量默认为0
+int main(){
+    int t,a,b,i,j;
+    result[2] = 1;//2也是素数
+    for(i = 3 ;i < N ;i = i + 2){//把奇数全部假设为素数
+        result[i] = 1;
+    }
+    for(i = 2 ; i < 1000 ; i++){//小于根号1000000
+        if(result[i]){
+            for(j = i * 2 ;j < N ; j = j + i){//把i的倍数的值改成0
+                result[j] = 0;
+            }
+        }
+    }
+    while(cin>>a>>b){
+        t = 0;
+        for(i = a ;i <= b;i++){
+            if(result[i]){
+                printf(" %d " , i);
+            }
+        }
+    }
+    return 0;
+}
