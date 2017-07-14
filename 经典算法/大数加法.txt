@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+/**
+大数加法
+*/
+string bigAdd(string s1 , string s2){
+    if(s1 == "" || s2 == "")
+        return NULL;
+    int len1 = s1.length();
+    int len2 = s2.length();
+    string result = "";
+    if(len1 > len2){
+        int s = len1 - len2;
+        while(s){
+            s2.insert(0 , "0");
+            s--;
+        }
+        len2 = len1;
+    }else if(len1 < len2){
+        int s = len2 - len1;
+        while(s){
+            s1.insert(0 , "0");
+            s--;
+        }
+        len1 = len2;
+    }
+    reverse(s1.begin() , s1.end());
+    reverse(s2.begin() , s2.end());
+    int jin = 0 ;
+    for(int i =  0 ; i< len1 ;i++){
+        int temp = jin + (s1[i] - '0') + (s2[i] - '0');
+        result += (temp % 10 + '0');
+        jin = temp / 10;
+    }
+    reverse(result.begin() , result.end());
+    return result;
+}
+int main(){
+    string s1 = "88877";
+    string s2 = "222";
+    cout<<bigAdd(s1 , s2)<<endl;
+    return 0;
+}
