@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+/**
+之字形顺序打印二叉树
+用两个栈，分别反转存储
+*/
+struct Node{
+    int value;
+    Node * left;
+    Node * right;
+    Node(int v){
+        value = v;
+        left = NULL;
+        right = NULL;
+    }
+};
+void print(Node * root){
+    if(root == NULL)
+        return;
+    stack<Node *> s[2];
+    int current = 0 ;
+    int next = 1;
+    s[current].push(root);
+    while(!s[0].empty() || !s[1].empty()){
+        Node * node = s[current].top();
+        s[current].pop();
+        printf(" %d " , node->value);
+
+        if(current == 0){
+               if(node->left != NULL)
+                    s[next].push(node->left);
+                if(node->right != NULL)
+                    s[next].push(node->right);
+        }else{
+             if(node->right != NULL)
+                    s[next].push(node->right);
+             if(node->left != NULL)
+                    s[next].push(node->left);
+
+        }
+        if(s[current].empty()){
+            printf("\n");
+            current = 1 - current;
+            next = 1 - next;
+        }
+    }
+}
+int main(){
+    Node * r8 = new Node(8);
+    Node * r6 = new Node(6);
+    Node * r10 = new Node(10);
+    Node * r5 = new Node(5);
+    Node * r7 = new Node(7);
+    Node * r9 = new Node(9);
+    Node * r11 = new Node(11);
+    r8->left = r6;
+    r8->right = r10;
+    r6->left = r5;
+    r6->right = r7;
+    r10->left = r9;
+    r10->right = r11;
+    print(r8);
+    return 0;
+}
