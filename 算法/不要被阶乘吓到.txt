@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+#define N 9 //数组元素个数
+using namespace std;
+/**
+用来判断 N！后面有多少个 0
+result = N/5 + N/5^2 + N/5^3 .......
+*/
+int getNZero(int n){
+    int result = 0;
+    while(n){
+        result += n/5;
+        n /= 5;
+    }
+    return result;
+}
+/**
+用来判断 N！最低位的1在第几位
+result = N/2 + N/4 + N/8 + N/16 + ......
+*/
+int getN1(int n){
+    int result = 0;
+    while(n){
+        n >>= 1;
+        result += n;
+    }
+    return result;
+}
+int main(){
+    cout<<getNZero(10)<<endl;
+    cout<<getN1(10)<<endl;
+    return 0;
+}
