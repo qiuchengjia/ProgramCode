@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool isInvalid = true;
+/**
+旋转数组的最小数字，
+将一个增序数组的前 N 个元素搬到数组的后面
+例如{3,4,5,1,2} 为{1,2,3,4,5}的一个旋转，该数组的最小值为 1
+*/
+int getMinInOrder(int * data , int start , int end){
+    if(data == NULL){
+        isInvalid = false;
+        return -1;
+    }
+    int result = data[start];
+    for(int i = start + 1 ;i <= end ;i++){
+        if(data[i] < result)
+            result = data[i];
+    }
+    return result;
+}
+int getMin(int * data , int len){
+    if(data == NULL || len <= 0){
+        isInvalid = false;
+        return -1;
+    }
+    int start = 0 ;
+    int end = len - 1;
+    int mid = start;
+    while(data[start] >= data[end]){
+        if((end - start) == 1){
+            mid = end;
+            break;
+        }
+        mid = start + (end - start)/2;
+        //如果下标 start , end , mid 指向的三个数字相等
+        //就只能顺序查找了
+        if(data[start] == data[end] && data[start] == data[mid]){
+            return getMinInOrder(data , start , end);
+        }
+        if(data[mid] >= data[start])
+            start = mid;
+        else if(data[mid] <= data[end])
+            end = mid;
+    }
+    return data[mid];
+}
+int main(){
+    isInvalid = true;
+    int data[] = {1,0,1,1,1};
+    int data1[] = {3,4,5,1,2};
+    cout<<getMin(data , sizeof(data)/sizeof(data[0]))<<endl;
+    cout<<getMin(data1 , sizeof(data)/sizeof(data[0]))<<endl;
+    return 0;
+}
