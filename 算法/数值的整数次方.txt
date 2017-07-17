@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool isInvalid = true;
+/**
+数值的整数次方
+1.要考虑当指数为负数的时候，底数不能为0
+*/
+bool flag = true;
+bool isZero(double num){
+    if(num < 0.0000001 && num > -0.0000001)
+        return true;
+    return false;
+}
+double powerCore(double base , unsigned int exponent){
+    if(exponent == 0)
+        return 1;
+    if(exponent == 1)
+        return base;
+    double result = powerCore(base , exponent >> 1);
+    result *= result;
+    if(exponent & 0x01 == 1){
+        result *= base;
+    }
+    return result;
+}
+double power(double base , int exponent){
+    flag = true;
+    if(isZero(base) && exponent < 0){//这种情况是底数为 0 ，指数为负数
+        flag = false;
+        return 0.0;
+    }
+    bool isFu;
+    if(exponent < 0){
+        isFu = true;
+        exponent = -exponent;
+    }else{
+        isFu = false;
+    }
+    double result = powerCore(base , exponent);
+    if(isFu)
+        result = 1.0 / result;
+    return result;
+}
+int main(){
+    cout<<power(2 , -2)<<endl;
+    cout<<power(2 , 2)<<endl;
+    int result = power(0 , -2);
+    if(flag == false){
+        printf("底数不能为 0 \n");
+        cout<<result<<endl;
+    }
+    return 0;
+}
